@@ -4,11 +4,13 @@ import org.service.microserviceproducto.entities.CategoriaEntity;
 import org.service.microserviceproducto.entities.ProductoEntity;
 import org.service.microserviceproducto.repositories.CategoriaRepository;
 import org.service.microserviceproducto.repositories.ProductoRepository;
+import org.service.microserviceproducto.requests_responses.ProductoFeignResponse;
 import org.service.microserviceproducto.requests_responses.ProductoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductoService {
@@ -39,7 +41,7 @@ public class ProductoService {
         if(categoriaRepository.findByNombre(nombreCategoria.toUpperCase()).isEmpty()){
             return new ProductoResponse("Categoria no ha sido encontrada",null);
         }else{
-            producto.setCategoria(categoriaRepository.findByNombre(nombreCategoria.toLowerCase()).get());
+            producto.setCategoria(categoriaRepository.findByNombre(nombreCategoria.toUpperCase()).get());
             producto.setNombre(producto.getNombre().toLowerCase());
             ProductoEntity savedProducto = productoRepository.save(producto);
             return new ProductoResponse("Producto agregado", savedProducto);
@@ -89,6 +91,21 @@ public class ProductoService {
         }else{
             categoriaRepository.save(categoria);
             return "la categoria "+categoria.getNombre()+" ha sido actualizada";
+        }
+    }
+
+    public ProductoFeignResponse getProducto_Orden(String id){
+        Optional<ProductoEntity> productoFind = productoRepository.findById(id);
+        if(productoFind.isEmpty()){
+            return null;
+        }else{
+            return ProductoFeignResponse
+                    .builder()
+                    .id(productoFind.get().getId())
+                    .nombre(productoFind.get().getNombre())
+                    .descripcion(productoFind.get().getDescripcion())
+                    .precio(productoFind.get().getPrecio())
+                    .build();
         }
     }
 

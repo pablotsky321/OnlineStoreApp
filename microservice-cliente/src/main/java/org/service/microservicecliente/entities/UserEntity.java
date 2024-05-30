@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.*;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -26,6 +27,8 @@ public class UserEntity {
     @Field(name = "apellidos")
     private String apellidos;
     @Email
+    @Field(name = "correo_electronico")
+    @Indexed(unique = true)
     private String username;
     @Field(name = "clave")
     private String password;

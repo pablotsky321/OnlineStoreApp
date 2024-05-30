@@ -106,4 +106,13 @@ public class ProductoController {
         }
     }
 
+    @GetMapping("/findProductoOrden/{id}")
+    public ResponseEntity<?> findProductoOrden(@PathVariable(value = "id") String id) {
+        try {
+            return new ResponseEntity<>(productoService.getProducto_Orden(id), HttpStatus.ACCEPTED);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage()+" cause:\n"+e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

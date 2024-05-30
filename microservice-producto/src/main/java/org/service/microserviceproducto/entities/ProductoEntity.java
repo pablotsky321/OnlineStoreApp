@@ -20,8 +20,9 @@ public class ProductoEntity {
     @Field(value = "descripcion")
     private String descripcion;
     @DocumentReference
-    @Field("categoria_id")
+    @Field(value = "categoria_id")
     private CategoriaEntity categoria;
+    @Field(value = "precio")
     private double precio;
 
     public ProductoEntity(String nombre,  String descripcion, double precio) {
