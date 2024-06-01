@@ -2,12 +2,14 @@ package org.service.microserviceproducto.controllers;
 
 import org.service.microserviceproducto.entities.CategoriaEntity;
 import org.service.microserviceproducto.entities.ProductoEntity;
-import org.service.microserviceproducto.requests_responses.ProductoResponse;
+import org.service.microserviceproducto.requests_responses.ProductoRequest;
 import org.service.microserviceproducto.services.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/producto")
@@ -65,6 +67,24 @@ public class ProductoController {
     public ResponseEntity<?> insertCategoria(@RequestBody CategoriaEntity categoria) {
         try {
             return new ResponseEntity<>(productoService.addCategoria(categoria), HttpStatus.ACCEPTED);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage()+" cause:\n"+e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/addCategorias")
+    public ResponseEntity<?> insertCategorias(@RequestBody List<CategoriaEntity> categorias) {
+        try {
+            return new ResponseEntity<>(productoService.addCategories(categorias), HttpStatus.ACCEPTED);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage()+" cause:\n"+e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/addProductos")
+    public ResponseEntity<?> insertProductos(@RequestBody List<ProductoRequest> productos) {
+        try {
+            return new ResponseEntity<>(productoService.addProductos(productos), HttpStatus.ACCEPTED);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage()+" cause:\n"+e.getCause(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

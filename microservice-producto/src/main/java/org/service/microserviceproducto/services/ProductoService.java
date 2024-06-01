@@ -5,6 +5,7 @@ import org.service.microserviceproducto.entities.ProductoEntity;
 import org.service.microserviceproducto.repositories.CategoriaRepository;
 import org.service.microserviceproducto.repositories.ProductoRepository;
 import org.service.microserviceproducto.requests_responses.ProductoFeignResponse;
+import org.service.microserviceproducto.requests_responses.ProductoRequest;
 import org.service.microserviceproducto.requests_responses.ProductoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,6 +108,26 @@ public class ProductoService {
                     .precio(productoFind.get().getPrecio())
                     .build();
         }
+    }
+
+    public String addProductos(List<ProductoRequest> productos){
+        for(ProductoRequest producto: productos){
+            if(categoriaRepository.findByNombre(producto.getNombre_categoria().toUpperCase()).isPresent()){
+                producto.getProducto().setNombre(producto.getProducto().getNombre().toLowerCase());
+                producto.getProducto().setCategoria(categoriaRepository.findByNombre(producto.getNombre_categoria().toUpperCase()).get());
+                productoRepository.save(producto.getProducto());
+            }
+        }
+        return "la lista de productos agregados correctamente";
+    }
+
+    public String addCategories(List<CategoriaEntity> categorias){
+        for(CategoriaEntity categoria : categorias){
+            if(categoriaRepository.findByNombre(categoria.getNombre()).isEmpty()){
+                categoriaRepository.save(categoria);
+            }
+        }
+        return "la lista de categorias correctamente";
     }
 
 }

@@ -22,12 +22,15 @@ public class ProductoEntity {
     @DocumentReference
     @Field(value = "categoria_id")
     private CategoriaEntity categoria;
+    @Field(value = "stock_disponible")
+    private long stock_disponible;
     @Field(value = "precio")
     private double precio;
 
-    public ProductoEntity(String nombre,  String descripcion, double precio) {
+    public ProductoEntity(String nombre,  String descripcion,long stock_disponible ,double precio) {
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.stock_disponible = stock_disponible;
         this.precio = precio;
     }
 }

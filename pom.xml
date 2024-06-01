@@ -23,7 +23,7 @@
   <modules>
     <module>microservice-producto</module>
     <module>microservice-ordenes</module>
-    <module>microservice-cliente</module>
+    <module>microservice-user</module>
     <module>eurekaServer</module>
     <module>gateway</module>
     <module>configServer</module>

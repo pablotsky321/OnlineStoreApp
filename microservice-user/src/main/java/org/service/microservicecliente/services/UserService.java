@@ -40,7 +40,7 @@ public class UserService {
 
     public UserResponse findUserByid(String id){
         Optional<UserEntity> userFind = userRepository.findById(id);
-        if(userFind.isEmpty()){
+        if(userFind.isEmpty() || id.isEmpty()){
             return null;
         }else{
             return UserResponse

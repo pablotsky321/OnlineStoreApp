@@ -44,4 +44,29 @@ public class OrdenService {
         }
     }
 
+    public List<OrdenEntity> getAllOrdenes() {
+        return ordenRepository.findAll();
+    }
+
+    public OrdenEntity getOrdenById(String id) {
+        return ordenRepository.findById(id).orElse(null);
+    }
+
+    public String deleteOrdenById(String id) {
+        if(ordenRepository.findById(id).isEmpty()){
+            return "La orden no existe";
+        }else{
+            ordenRepository.deleteById(id);
+            return "Orden eliminado";
+        }
+    }
+
+    public List<OrdenEntity> getUserOrdens(String id_user) {
+        if(userClient.getUserById(id_user) == null) {
+            return null;
+        }else{
+            return ordenRepository.findByUserDTO(userClient.getUserById(id_user));
+        }
+    }
+
 }
