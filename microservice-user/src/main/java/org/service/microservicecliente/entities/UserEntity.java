@@ -1,7 +1,6 @@
 package org.service.microservicecliente.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import feign.FeignIgnore;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
