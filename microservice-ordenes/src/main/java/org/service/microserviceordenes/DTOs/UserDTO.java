@@ -18,6 +18,7 @@ public class UserDTO {
     private String id;
     private String nombres;
     private String apellidos;
+    @Field(value = "correo_electronico")
     private String username;
 
 }

@@ -1,6 +1,5 @@
 package org.service.microserviceordenes.services;
 
-import org.service.microserviceordenes.DTOs.UserDTO;
 import org.service.microserviceordenes.clients.ProductoClient;
 import org.service.microserviceordenes.clients.UserClient;
 import org.service.microserviceordenes.entities.OrdenEntity;
@@ -33,7 +32,7 @@ public class OrdenService {
             List<Producto_Cantidad> producto_cantidad = new ArrayList<>();
             OrdenEntity orden = new OrdenEntity();
             orden.setFecha(LocalDateTime.now());
-            orden.setUserDTO(userClient.getUserById(id_user));
+            orden.setUsuario(userClient.getUserById(id_user));
             for (List_Producto_Cantidad_Request request:lista_productos) {
                 if(productoClient.getProductoById(request.getId_producto()) != null){
                     producto_cantidad.add(new Producto_Cantidad(productoClient.getProductoById(request.getId_producto()), request.getCantidad()));
@@ -65,7 +64,7 @@ public class OrdenService {
         if(userClient.getUserById(id_user) == null) {
             return null;
         }else{
-            return ordenRepository.findByUserDTO(userClient.getUserById(id_user));
+            return ordenRepository.findByUsuario(userClient.getUserById(id_user));
         }
     }
 

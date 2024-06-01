@@ -22,7 +22,7 @@ public class OrdenEntity {
     private List<Producto_Cantidad> productos;
     @DocumentReference(collection = "Usuarios")
     @Field(name = "id_usuario")
-    private UserDTO userDTO;
+    private UserDTO usuario;
     private LocalDateTime fecha;
 
 }
