@@ -10,7 +10,7 @@
 	<groupId>org.service</groupId>
 	<artifactId>microservice-user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>microservice-cliente</name>
+	<name>microservice-user</name>
 	<description>microservice-cliente</description>
 	<properties>
 		<java.version>21</java.version>
@@ -36,10 +36,6 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
