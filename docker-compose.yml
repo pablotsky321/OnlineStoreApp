@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db_microservice_user:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://localhost:27017/storeDB
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+  db_microservice_producto:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://localhost:27018/storeDB
+    ports:
+      - 27018:27018
+    expose:
+      - 27018
+  db_microservice_ordenes:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://localhost:27018/storeDB
+    ports:
+      - 27019:27019
+    expose:
+      - 27019
