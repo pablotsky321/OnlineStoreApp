@@ -1,30 +1,47 @@
-version: '3.9'
+version: '4.0'
+
+networks:
+  localNetwork:
+    driver: bridge
 
 services:
-  db_microservice_user:
-    image: mongo:latest
-    restart: unless-stopped
-    environment:
-      MONGO_URI: mongodb://localhost:27017/storeDB
+  microservice_ordenes_app:
+    container_name: microservice-ordenes
+    image: microservice-ordenes-img
+    build:
+      context: ./microservice-ordenes
+      dockerfile: Dockerfile
     ports:
-      - 27017:27017
-    expose:
-      - 27017
-  db_microservice_producto:
-    image: mongo:latest
-    restart: unless-stopped
-    environment:
-      MONGO_URI: mongodb://localhost:27018/storeDB
+      - 8091:8091
+    depends_on:
+      - eurekaServer_app
+    networks:
+      - localNetwork
+
+  eurekaServer_app:
+    container_name: eurekaServer
+    image: eurekaserver-img
+    build:
+      context: ./eurekaServer
+      dockerfile: Dockerfile
     ports:
-      - 27018:27018
-    expose:
-      - 27018
-  db_microservice_ordenes:
-    image: mongo:latest
-    restart: unless-stopped
-    environment:
-      MONGO_URI: mongodb://localhost:27018/storeDB
+      - 8081:8081
+    depends_on:
+      - configserver_app
+    networks:
+      - localNetwork
+
+  configserver_app:
+    container_name: configServer
+    image: configserver-img
+    build:
+      context: ./configServer
+      dockerfile: Dockerfile
     ports:
-      - 27019:27019
-    expose:
-      - 27019
+      - 8888:8888
+    networks:
+      - localNetwork
+
+
+
+
