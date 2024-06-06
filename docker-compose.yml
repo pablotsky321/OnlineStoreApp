@@ -1,10 +1,52 @@
-version: '4.0'
-
-networks:
-  localNetwork:
-    driver: bridge
+version: '3.8'
 
 services:
+
+  gateway_app:
+    container_name: gateway
+    image: gateway-img
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    restart: always
+    networks:
+      - alonetwork
+    depends_on:
+      - configserver_app
+      - eurekaServer_app
+
+  microservice_producto_app:
+    container_name: microservice-producto
+    image: microservice-producto-img
+    build:
+      context: ./microservice-producto
+      dockerfile: Dockerfile
+    ports:
+      - 8092:8092
+    restart: always
+    networks:
+      - alonetwork
+    depends_on:
+      - configserver_app
+      - eurekaServer_app
+
+  microservice_user_app:
+    container_name: microservice-user
+    image: microservice-user-img
+    build:
+      context: ./microservice-user
+      dockerfile: Dockerfile
+    ports:
+      - 8090:8090
+    restart: always
+    networks:
+      - alonetwork
+    depends_on:
+      - configserver_app
+      - eurekaServer_app
+
   microservice_ordenes_app:
     container_name: microservice-ordenes
     image: microservice-ordenes-img
@@ -13,10 +55,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8091:8091
-    depends_on:
-      - eurekaServer_app
+    restart: always
     networks:
-      - localNetwork
+      - alonetwork
+    depends_on:
+      - configserver_app
+      - eurekaServer_app
 
   eurekaServer_app:
     container_name: eurekaServer
@@ -26,10 +70,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8081:8081
+    restart: always
+    networks:
+      - alonetwork
     depends_on:
       - configserver_app
-    networks:
-      - localNetwork
 
   configserver_app:
     container_name: configServer
@@ -39,9 +84,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8888:8888
+    restart: always
     networks:
-      - localNetwork
+      - alonetwork
 
-
+networks:
+  alonetwork:
+    driver: bridge
 
 
