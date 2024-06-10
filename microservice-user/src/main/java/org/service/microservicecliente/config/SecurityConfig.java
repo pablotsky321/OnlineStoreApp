@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request->{
                     request.requestMatchers("/api/usuario/**").permitAll();
                     request.requestMatchers("/api/usuario/register_users").permitAll();
+                    request.requestMatchers("/swagger-ui/**").permitAll();
                 })
                 .userDetailsService(userDetailsServiceImp)
                 .build();

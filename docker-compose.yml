@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   gateway_app:
     container_name: gateway
     image: gateway-img
