@@ -1,94 +1,107 @@
 version: '3.8'
 
 services:
-  gateway_app:
+  gateway:
     container_name: gateway
-    image: gateway-img
+    image: gateway
     build:
       context: ./gateway
       dockerfile: Dockerfile
     ports:
       - 8080:8080
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8081/eureka/
     restart: always
     networks:
       - alonetwork
     depends_on:
-      - configserver_app
-      - eurekaServer_app
+      - config-server
+      - eureka-server
 
-  microservice_producto_app:
+  microservice-producto:
     container_name: microservice-producto
-    image: microservice-producto-img
+    image: microservice-producto
     build:
       context: ./microservice-producto
       dockerfile: Dockerfile
     ports:
       - 8092:8092
-    restart: always
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8081/eureka/
+    restart: on-failure
     networks:
       - alonetwork
     depends_on:
-      - configserver_app
-      - eurekaServer_app
+      - config-server
+      - eureka-server
 
-  microservice_user_app:
+  microservice-user:
     container_name: microservice-user
-    image: microservice-user-img
+    image: microservice-user
     build:
       context: ./microservice-user
       dockerfile: Dockerfile
     ports:
       - 8090:8090
-    restart: always
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8081/eureka/
+    restart: on-failure
     networks:
       - alonetwork
     depends_on:
-      - configserver_app
-      - eurekaServer_app
+      - config-server
+      - eureka-server
 
-  microservice_ordenes_app:
+  microservice-ordenes:
     container_name: microservice-ordenes
-    image: microservice-ordenes-img
+    image: microservice-ordenes
     build:
       context: ./microservice-ordenes
       dockerfile: Dockerfile
     ports:
       - 8091:8091
-    restart: always
+    environment:
+      CONFIG_URI: http://config-server:8888
+      EUREKA_URI: http://eureka-server:8081/eureka/
+    restart: on-failure
     networks:
       - alonetwork
     depends_on:
-      - configserver_app
-      - eurekaServer_app
+      - config-server
+      - eureka-server
 
-  eurekaServer_app:
+  eureka-server:
     container_name: eurekaServer
-    image: eurekaserver-img
+    image: eureka-server
     build:
       context: ./eurekaServer
       dockerfile: Dockerfile
     ports:
       - 8081:8081
-    restart: always
+    environment:
+      CONFIG_URI: http://config-server:8888
+    restart: on-failure
     networks:
       - alonetwork
     depends_on:
-      - configserver_app
+      - config-server
 
-  configserver_app:
-    container_name: configServer
-    image: configserver-img
+  config-server:
+    container_name: config-server
+    image: config-server
     build:
       context: ./configServer
       dockerfile: Dockerfile
     ports:
       - 8888:8888
-    restart: always
+    restart: on-failure
     networks:
       - alonetwork
 
 networks:
   alonetwork:
     driver: bridge
-
-
+    name: alonetwork

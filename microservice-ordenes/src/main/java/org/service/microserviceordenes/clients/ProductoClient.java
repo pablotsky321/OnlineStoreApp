@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "microservice-producto", url = "http://localhost:8092/api/producto")
+@FeignClient(name = "microservice-producto")
 public interface ProductoClient {
     
     @GetMapping("/findProductoOrden/{id_producto}")
