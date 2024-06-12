@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   gateway:
-    container_name: gateway
+    container_name: gateway-container
     image: gateway
     build:
       context: ./gateway
@@ -12,15 +12,17 @@ services:
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8081/eureka/
-    restart: always
+    restart: on-failure
     networks:
       - alonetwork
     depends_on:
-      - config-server
-      - eureka-server
+       config-server:
+         condition: service_healthy
+       eureka-server:
+         condition: service_healthy
 
   microservice-producto:
-    container_name: microservice-producto
+    container_name: microservice-producto-container
     image: microservice-producto
     build:
       context: ./microservice-producto
@@ -34,11 +36,13 @@ services:
     networks:
       - alonetwork
     depends_on:
-      - config-server
-      - eureka-server
+       config-server:
+         condition: service_healthy
+       eureka-server:
+         condition: service_healthy
 
   microservice-user:
-    container_name: microservice-user
+    container_name: microservice-user-container
     image: microservice-user
     build:
       context: ./microservice-user
@@ -52,11 +56,13 @@ services:
     networks:
       - alonetwork
     depends_on:
-      - config-server
-      - eureka-server
+        config-server:
+          condition: service_healthy
+        eureka-server:
+          condition: service_healthy
 
   microservice-ordenes:
-    container_name: microservice-ordenes
+    container_name: microservice-ordenes-container
     image: microservice-ordenes
     build:
       context: ./microservice-ordenes
@@ -70,14 +76,16 @@ services:
     networks:
       - alonetwork
     depends_on:
-      - config-server
-      - eureka-server
+       config-server:
+         condition: service_healthy
+       eureka-server:
+         condition: service_healthy
 
   eureka-server:
-    container_name: eurekaServer
+    container_name: eureka-server-container
     image: eureka-server
     build:
-      context: ./eurekaServer
+      context: ./eureka-server
       dockerfile: Dockerfile
     ports:
       - 8081:8081
@@ -87,21 +95,31 @@ services:
     networks:
       - alonetwork
     depends_on:
-      - config-server
+       config-server:
+         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   config-server:
-    container_name: config-server
+    container_name: config-server-container
     image: config-server
     build:
-      context: ./configServer
+      context: ./config-server
       dockerfile: Dockerfile
     ports:
       - 8888:8888
     restart: on-failure
     networks:
       - alonetwork
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 networks:
   alonetwork:
     driver: bridge
-    name: alonetwork
