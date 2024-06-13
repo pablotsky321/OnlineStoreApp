@@ -25,8 +25,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request->{
-                    request.requestMatchers("/api/usuario/**").permitAll();
-                    request.requestMatchers("/api/usuario/register_users").permitAll();
+                    request.requestMatchers("/api/usuario/search_user/**").permitAll();
+                    request.requestMatchers("/api/usuario/register_client").permitAll();
                     request.requestMatchers("/swagger-ui/**").permitAll();
                 })
                 .userDetailsService(userDetailsServiceImp)
