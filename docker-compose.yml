@@ -12,6 +12,9 @@ services:
     environment:
       CONFIG_URI: http://config-server:8888
       EUREKA_URI: http://eureka-server:8081/eureka/
+      MICROSERVICE_USER_URI: http://microservice-user:8090
+      MICROSERVICE_PRODUCTO_URI: http://microservice-producto:8092
+      MICROSERVICE_ORDENES_URI: http://microservice-ordenes:8091
     restart: on-failure
     networks:
       - alonetwork

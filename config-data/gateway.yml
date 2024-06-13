@@ -15,14 +15,14 @@ spring:
           enabled: true
       routes:
         - id: usuarios
-          uri: http://localhost:8090
+          uri: ${MICROSERVICE_USER_URI:http://localhost:8090}
           predicates:
             - Path=/api/usuario/**
         - id: productos
-          uri: http://localhost:8092
+          uri: ${MICROSERVICE_PRODUCTO_URI:http://localhost:8092}
           predicates:
             - Path=/api/producto/**
         - id: ordenes
-          uri: http://localhost:8091
+          uri: ${MICROSERVICE_ORDENES_URI:http://localhost:8091}
           predicates:
             - Path=/api/orden/**
