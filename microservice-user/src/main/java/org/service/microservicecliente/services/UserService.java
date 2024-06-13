@@ -53,4 +53,19 @@ public class UserService {
         }
     }
 
+    public UserResponse findUserByUsername(String username){
+        Optional<UserEntity> userFind = userRepository.findByUsername(username);
+        if(userFind.isEmpty() || username.isEmpty()){
+            return null;
+        }else{
+            return UserResponse
+                    .builder()
+                    .id(userFind.get().getId())
+                    .nombres(userFind.get().getNombres())
+                    .apellidos(userFind.get().getApellidos())
+                    .username(userFind.get().getUsername())
+                    .build();
+        }
+    }
+
 }

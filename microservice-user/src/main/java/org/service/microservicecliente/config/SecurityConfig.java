@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
     @Autowired
     UserDetailsServiceImp userDetailsServiceImp;
@@ -22,12 +22,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .csrf(csrf->{
+                    csrf.disable();
+                })
+                .cors(cors->{
+                    cors.disable();
+                })
                 .authorizeHttpRequests(request->{
-                    request.requestMatchers("/api/usuario/search_user/**").permitAll();
-                    request.requestMatchers("/api/usuario/register_client").permitAll();
-                    request.requestMatchers("/swagger-ui/**").permitAll();
+                    request.requestMatchers("/api/usuario/**").permitAll();
                 })
                 .userDetailsService(userDetailsServiceImp)
                 .build();

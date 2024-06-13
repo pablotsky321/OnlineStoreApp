@@ -2,7 +2,6 @@ package org.service.microservicecliente.controllers;
 
 import jakarta.validation.Valid;
 import org.service.microservicecliente.entities.UserEntity;
-import org.service.microservicecliente.responses_requests.UsersRequest;
 import org.service.microservicecliente.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
